@@ -3,3 +3,4 @@ djangorestframework~=3.15.2
 Pillow
 django-model-utils~=5.0.0
 django-filter
+djangorestframework-simplejwt

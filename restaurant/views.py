@@ -8,6 +8,7 @@ from .permissions import IsOwnerOrReadOnly
 from django.db import transaction
 from rest_framework.permissions import AllowAny
 
+
 class RestaurantViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
