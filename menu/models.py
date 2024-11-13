@@ -12,7 +12,6 @@ class Menu(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['-created_at']
         indexes = [
             models.Index(fields=['restaurant']),
         ]

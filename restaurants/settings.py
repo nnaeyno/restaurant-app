@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "restaurant",
     "menu",
     "meal",
-    "rest_framework"
-    "django_filters"
+    "rest_framework",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
