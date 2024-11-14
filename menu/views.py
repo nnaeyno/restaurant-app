@@ -1,6 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db import transaction
+from rest_framework.views import APIView
+
 from .models import Menu, SubCategory, MainCategory
 from .serializers import (
     MenuSerializer, MainCategorySerializer,
@@ -54,11 +56,13 @@ class MainCategoryFilter(django_filters.FilterSet):
         model = MainCategory
         fields = ['menu_id']
 
+
 class PublicMainCategoryView(generics.ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = PublicMainCategorySerializer
     queryset = MainCategory.objects.all()
     filterset_class = MainCategoryFilter
+
 
 class SubCategoryFilter(django_filters.FilterSet):
     main_category = django_filters.NumberFilter(field_name='main_category__id')
@@ -70,6 +74,7 @@ class SubCategoryFilter(django_filters.FilterSet):
     class Meta:
         model = SubCategory
         fields = ['main_category', 'dish_name']
+
 
 class PublicSubCategoryView(generics.ListAPIView):
     permission_classes = [AllowAny]
@@ -93,3 +98,26 @@ class PublicSubCategoryView(generics.ListAPIView):
             queryset = queryset.filter(dishes__is_available=True)
 
         return queryset.distinct()
+
+
+class MenuAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = MenuSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        try:
+            menu = Menu.objects.get(pk=pk)
+        except Menu.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = MenuSerializer(menu, data=request.data, partial=True, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
