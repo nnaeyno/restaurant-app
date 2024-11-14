@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from meal.views import DishViewSet, PublicDishListView
+from meal.views import DishViewSet, PublicDishListView, DishAPIView
 
 router = DefaultRouter()
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path('public/dishes/',
          PublicDishListView.as_view(),
          name='public-dish-list'),
+    path('dish-create/', DishAPIView.as_view(), name='dish-create'),
+    path('dishes/<int:pk>/', DishAPIView.as_view(), name='dish-update'),
 ]

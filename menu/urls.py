@@ -17,6 +17,6 @@ urlpatterns = [
          PublicSubCategoryView.as_view(),
          name='public-sub-categories'),
 
-    path('menu/', MenuAPIView.as_view(), name='menu-create'),
+    path('menu-create/', MenuAPIView.as_view(), name='menu-create'),
     path('menu/<int:pk>/', MenuAPIView.as_view(), name='menu-update'),
 ]

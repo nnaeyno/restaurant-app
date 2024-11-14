@@ -36,5 +36,5 @@ class PublicDishSerializer(serializers.ModelSerializer):
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ['id', 'name', 'description', 'price', 'photo',
+        fields = ['id', 'sub_category', 'name', 'description', 'price', 'photo',
                   'is_available', 'order']
